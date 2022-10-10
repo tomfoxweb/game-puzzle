@@ -2,6 +2,8 @@ export const environment = {
   production: true,
   documentTitle: 'Game Puzzle',
   title: 'Game Puzzle',
-  buttonNewGameCaption: 'New Game',
+  buttonNewGameCaption: 'Shuffle',
+  buttonPrevImageCaption: 'Prev',
+  buttonNextImageCaption: 'Next',
   isTest: false,
 };

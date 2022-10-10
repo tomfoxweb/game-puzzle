@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ControllerService } from '../controller.service';
 import {
   Cell,
@@ -19,6 +19,7 @@ import { ImageInfo, ImageSlicerService } from '../image-slicer.service';
   styleUrls: ['./puzzle.component.scss'],
 })
 export class PuzzleComponent implements OnInit, Viewable {
+  @Input() shuffleCount = '500';
   orderedImagesInfo: ImageInfo[] = [];
   currentImagesInfo: ImageInfo[] = [];
 
@@ -29,12 +30,21 @@ export class PuzzleComponent implements OnInit, Viewable {
   ) {}
 
   ngOnInit(): void {
-    this.showLoadingImage();
-    this.showFirstImage();
+    this.showNextImage();
   }
 
   newGame(shuffleCount: string): void {
     this.controller.newGame(Number(shuffleCount));
+  }
+
+  showNextImage(): void {
+    this.showLoadingImage();
+    this.loadNextImage();
+  }
+
+  showPrevImage(): void {
+    this.showLoadingImage();
+    this.loadPrevImage();
   }
 
   setCell(cell: Readonly<Cell>): void {
@@ -78,14 +88,24 @@ export class PuzzleComponent implements OnInit, Viewable {
     this.currentImagesInfo[this.currentImagesInfo.length - 1].value = 1;
   }
 
-  private showFirstImage(): void {
+  private loadNextImage(): void {
+    const src = this.imageProvider.getNextImageSrc();
+    this.loadImage(src);
+  }
+
+  private loadPrevImage(): void {
+    const src = this.imageProvider.getPrevImageSrc();
+    this.loadImage(src);
+  }
+
+  private loadImage(src: string): void {
     const image = new Image();
-    image.src = this.imageProvider.getNextImageSrc();
+    image.src = src;
     image.onload = () => {
       this.orderedImagesInfo = this.imageSlicer.sliceImage(image);
       this.currentImagesInfo = [...this.orderedImagesInfo];
       this.controller.setView(this);
-      this.controller.newGame(500);
+      this.controller.newGame(Number(this.shuffleCount));
     };
   }
 }

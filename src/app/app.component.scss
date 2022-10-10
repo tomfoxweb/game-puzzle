@@ -24,13 +24,20 @@ $content-max-width: 600px;
     justify-self: center;
   }
 
-  .new-game {
-    font-size: 1rem;
-    padding: 1em 1.5em;
+  .buttons-container {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 1em;
+    justify-content: center;
 
-    &:active {
-      color: white;
-      background-color: darkseagreen;
+    button {
+      font-size: 1rem;
+      padding: 1em 1.5em;
+
+      &:active {
+        color: white;
+        background-color: darkseagreen;
+      }
     }
   }
 

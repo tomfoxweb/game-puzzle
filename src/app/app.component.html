@@ -1,8 +1,16 @@
 <div class="content-container">
   <h1 class="title">{{ title }}</h1>
-  <button class="new-game" (click)="puzzle.newGame(outputShuffleCount.value)">
-    {{ buttonNewGameCaption }}
-  </button>
+  <div class="buttons-container">
+    <button class="button-prev-image" (click)="puzzle.showPrevImage()">
+      {{ buttonPrevImageCaption }}
+    </button>
+    <button class="new-game" (click)="puzzle.newGame(outputShuffleCount.value)">
+      {{ buttonNewGameCaption }}
+    </button>
+    <button class="button-next-image" (click)="puzzle.showNextImage()">
+      {{ buttonNextImageCaption }}
+    </button>
+  </div>
   <div class="shuffle-container">
     <label for="inputRangeShuffleCount">Difficulty: Initial Permutations</label>
     <button
@@ -20,8 +28,14 @@
       min="0"
       max="1000"
       value="500"
-      (change)="outputShuffleCount.value = inputRangeShuffleCount.value"
-      (input)="outputShuffleCount.value = inputRangeShuffleCount.value"
+      (change)="
+        outputShuffleCount.value = inputRangeShuffleCount.value;
+        puzzle.shuffleCount = inputRangeShuffleCount.value
+      "
+      (input)="
+        outputShuffleCount.value = inputRangeShuffleCount.value;
+        puzzle.shuffleCount = inputRangeShuffleCount.value
+      "
     />
     <button
       class="button-increment"

@@ -6,7 +6,9 @@ export const environment = {
   production: false,
   documentTitle: 'Game Puzzle',
   title: 'Game Puzzle',
-  buttonNewGameCaption: 'New Game',
+  buttonNewGameCaption: 'Shuffle',
+  buttonPrevImageCaption: 'Prev',
+  buttonNextImageCaption: 'Next',
   isTest: false,
 };
 

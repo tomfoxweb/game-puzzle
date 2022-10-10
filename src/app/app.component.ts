@@ -10,6 +10,8 @@ import { Title } from '@angular/platform-browser';
 export class AppComponent implements OnInit {
   title = environment.title;
   buttonNewGameCaption = environment.buttonNewGameCaption;
+  buttonPrevImageCaption = environment.buttonPrevImageCaption;
+  buttonNextImageCaption = environment.buttonNextImageCaption;
 
   constructor(private documentTitle: Title) {}
 
