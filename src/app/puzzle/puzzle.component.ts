@@ -10,6 +10,7 @@ import {
   RowValues,
 } from '../core/map';
 import { Viewable } from '../core/viewable';
+import { ImageProviderService } from '../image-provider.service';
 import { ImageInfo, ImageSlicerService } from '../image-slicer.service';
 
 @Component({
@@ -23,7 +24,8 @@ export class PuzzleComponent implements OnInit, Viewable {
 
   constructor(
     public controller: ControllerService,
-    private imageSlicer: ImageSlicerService
+    private imageSlicer: ImageSlicerService,
+    private imageProvider: ImageProviderService
   ) {}
 
   ngOnInit(): void {
@@ -78,7 +80,7 @@ export class PuzzleComponent implements OnInit, Viewable {
 
   private showFirstImage(): void {
     const image = new Image();
-    image.src = '../../assets/images/0.png';
+    image.src = this.imageProvider.getNextImageSrc();
     image.onload = () => {
       this.orderedImagesInfo = this.imageSlicer.sliceImage(image);
       this.currentImagesInfo = [...this.orderedImagesInfo];
