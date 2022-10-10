@@ -10,17 +10,22 @@
   .puzzle-item {
     aspect-ratio: 1;
     cursor: pointer;
-    font-size: 3rem;
+    font-size: 1rem;
     background-color: floralwhite;
     margin: 0;
     padding: 0;
     border: 1px solid gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     img {
       display: block;
       margin: 0;
       padding: 0;
       max-width: 100%;
+      width: auto;
+      height: auto;
       aspect-ratio: 1;
     }
   }

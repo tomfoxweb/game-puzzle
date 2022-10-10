@@ -27,6 +27,24 @@ export class PuzzleComponent implements OnInit, Viewable {
   ) {}
 
   ngOnInit(): void {
+    const loadingImage = new Image();
+    loadingImage.src = '../../assets/images/loading.gif';
+
+    const valueIterator = CellValues[Symbol.iterator]();
+    for (const row of RowValues) {
+      for (const column of ColumnValues) {
+        const value = valueIterator.next().value;
+        const info: ImageInfo = {
+          row,
+          column,
+          value,
+          src: loadingImage.src,
+          alt: 'Loading...',
+        };
+        this.currentImagesInfo.push(info);
+      }
+    }
+
     const image = new Image();
     image.src = '../../assets/images/0.png';
     image.onload = () => {
