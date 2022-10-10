@@ -1,12 +1,12 @@
 <div class="puzzle-container">
   <button
     class="puzzle-item"
-    *ngFor="let item of puzzleItems"
+    *ngFor="let item of currentImagesInfo"
     id="item{{ item.row }}{{ item.column }}"
     [disabled]="item.value === 0"
     [class.empty-cell]="item.value === 0"
     (click)="clickCell(item.row, item.column)"
   >
-    {{ item.value }}
+    <img src="{{ item.src }}" alt="{{ item.alt }}" />
   </button>
 </div>

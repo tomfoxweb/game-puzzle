@@ -10,6 +10,7 @@ import {
   RowValues,
 } from '../core/map';
 import { Viewable } from '../core/viewable';
+import { ImageInfo, ImageSlicerService } from '../image-slicer.service';
 
 @Component({
   selector: 'app-puzzle',
@@ -17,21 +18,23 @@ import { Viewable } from '../core/viewable';
   styleUrls: ['./puzzle.component.scss'],
 })
 export class PuzzleComponent implements OnInit, Viewable {
-  puzzleItems: Cell[] = [];
+  orderedImagesInfo: ImageInfo[] = [];
+  currentImagesInfo: ImageInfo[] = [];
 
-  constructor(public controller: ControllerService) {}
+  constructor(
+    public controller: ControllerService,
+    private imageSlicer: ImageSlicerService
+  ) {}
 
   ngOnInit(): void {
-    const valueIterator = CellValues[Symbol.iterator]();
-    for (const row of RowValues) {
-      for (const column of ColumnValues) {
-        const value = valueIterator.next().value;
-        const cell: Cell = { row, column, value };
-        this.puzzleItems.push(cell);
-      }
-    }
-    this.controller.setView(this);
-    this.controller.newGame(500);
+    const image = new Image();
+    image.src = '../../assets/images/0.png';
+    image.onload = () => {
+      this.orderedImagesInfo = this.imageSlicer.sliceImage(image);
+      this.currentImagesInfo = [...this.orderedImagesInfo];
+      this.controller.setView(this);
+      this.controller.newGame(500);
+    };
   }
 
   newGame(shuffleCount: string): void {
@@ -40,7 +43,11 @@ export class PuzzleComponent implements OnInit, Viewable {
 
   setCell(cell: Readonly<Cell>): void {
     const index = positionToIndex(cell.row, cell.column);
-    this.puzzleItems[index] = cell;
+    const value = cell.value;
+    const info = this.orderedImagesInfo.find((x) => x.value === value)!;
+    info.row = cell.row;
+    info.column = cell.column;
+    this.currentImagesInfo[index] = { ...info };
   }
 
   clickCell(row: Row, column: Column): void {
