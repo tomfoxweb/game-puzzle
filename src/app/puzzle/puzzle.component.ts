@@ -27,32 +27,8 @@ export class PuzzleComponent implements OnInit, Viewable {
   ) {}
 
   ngOnInit(): void {
-    const loadingImage = new Image();
-    loadingImage.src = '../../assets/images/loading.gif';
-
-    const valueIterator = CellValues[Symbol.iterator]();
-    for (const row of RowValues) {
-      for (const column of ColumnValues) {
-        const value = valueIterator.next().value;
-        const info: ImageInfo = {
-          row,
-          column,
-          value,
-          src: loadingImage.src,
-          alt: 'Loading...',
-        };
-        this.currentImagesInfo.push(info);
-      }
-    }
-
-    const image = new Image();
-    image.src = '../../assets/images/0.png';
-    image.onload = () => {
-      this.orderedImagesInfo = this.imageSlicer.sliceImage(image);
-      this.currentImagesInfo = [...this.orderedImagesInfo];
-      this.controller.setView(this);
-      this.controller.newGame(500);
-    };
+    this.showLoadingImage();
+    this.showFirstImage();
   }
 
   newGame(shuffleCount: string): void {
@@ -76,5 +52,38 @@ export class PuzzleComponent implements OnInit, Viewable {
     window.setTimeout(() => {
       window.alert('Congratulations!');
     }, 200);
+  }
+
+  private showLoadingImage(): void {
+    const loadingImage = new Image();
+    loadingImage.src = '../../assets/images/loading.gif';
+    loadingImage.alt = 'Loading...';
+    this.currentImagesInfo = [];
+    const valueIterator = CellValues[Symbol.iterator]();
+    for (const row of RowValues) {
+      for (const column of ColumnValues) {
+        const value = valueIterator.next().value;
+        const info: ImageInfo = {
+          row,
+          column,
+          value,
+          src: loadingImage.src,
+          alt: loadingImage.alt,
+        };
+        this.currentImagesInfo.push(info);
+      }
+    }
+    this.currentImagesInfo[this.currentImagesInfo.length - 1].value = 1;
+  }
+
+  private showFirstImage(): void {
+    const image = new Image();
+    image.src = '../../assets/images/0.png';
+    image.onload = () => {
+      this.orderedImagesInfo = this.imageSlicer.sliceImage(image);
+      this.currentImagesInfo = [...this.orderedImagesInfo];
+      this.controller.setView(this);
+      this.controller.newGame(500);
+    };
   }
 }
