@@ -1,0 +1,37 @@
+<div class="content-container">
+  <h1 class="title">{{ title }}</h1>
+  <button class="new-game" (click)="puzzle.newGame(outputShuffleCount.value)">
+    {{ buttonNewGameCaption }}
+  </button>
+  <div class="shuffle-container">
+    <label for="inputRangeShuffleCount">Difficulty: Initial Permutations</label>
+    <button
+      class="button-decrement"
+      (click)="
+        decrementShuffleCount(inputRangeShuffleCount, outputShuffleCount)
+      "
+    >
+      &minus;
+    </button>
+    <input
+      #inputRangeShuffleCount
+      id="inputRangeShuffleCount"
+      type="range"
+      min="0"
+      max="1000"
+      value="500"
+      (change)="outputShuffleCount.value = inputRangeShuffleCount.value"
+      (input)="outputShuffleCount.value = inputRangeShuffleCount.value"
+    />
+    <button
+      class="button-increment"
+      (click)="
+        incrementShuffleCount(inputRangeShuffleCount, outputShuffleCount)
+      "
+    >
+      +
+    </button>
+    <output #outputShuffleCount id="outputShuffleCount">500</output>
+  </div>
+  <app-puzzle #puzzle></app-puzzle>
+</div>

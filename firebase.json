@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "dist/game-puzzle",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

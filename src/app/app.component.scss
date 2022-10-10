@@ -1,0 +1,91 @@
+$content-max-width: 600px;
+
+.content-container {
+  margin: 0 auto;
+  max-width: $content-max-width;
+
+  display: grid;
+  grid-template-columns: auto;
+  gap: 1.5em;
+
+  color: DarkOliveGreen;
+
+  button {
+    color: DarkOliveGreen;
+    background-color: floralwhite;
+    border: 1px solid green;
+    border-radius: 5px;
+    box-shadow: 0px 0px 1px 1px seagreen;
+    cursor: pointer;
+  }
+
+  .title,
+  .new-game {
+    justify-self: center;
+  }
+
+  .new-game {
+    font-size: 1rem;
+    padding: 1em 1.5em;
+
+    &:active {
+      color: white;
+      background-color: darkseagreen;
+    }
+  }
+
+  .shuffle-container {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: repeat(3, auto);
+    gap: 0.2em;
+
+    label,
+    output {
+      justify-self: center;
+      font-size: 1rem;
+    }
+
+    button {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 1rem;
+      padding: 1em;
+      aspect-ratio: 1;
+      justify-self: center;
+      align-self: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:active {
+        color: white;
+        background-color: darkseagreen;
+      }
+    }
+
+    .button-decrement {
+      grid-row: 1 / 4;
+      grid-column: 1;
+    }
+
+    label {
+      grid-row: 1;
+      grid-column: 2;
+    }
+
+    input {
+      grid-row: 2;
+      grid-column: 2;
+    }
+
+    .button-increment {
+      grid-row: 1 / 4;
+      grid-column: 3;
+    }
+
+    output {
+      grid-row: 3;
+      grid-column: 2;
+    }
+  }
+}

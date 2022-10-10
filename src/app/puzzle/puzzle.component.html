@@ -1,0 +1,12 @@
+<div class="puzzle-container">
+  <button
+    class="puzzle-item"
+    *ngFor="let item of puzzleItems"
+    id="item{{ item.row }}{{ item.column }}"
+    [disabled]="item.value === 0"
+    [class.empty-cell]="item.value === 0"
+    (click)="clickCell(item.row, item.column)"
+  >
+    {{ item.value }}
+  </button>
+</div>

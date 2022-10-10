@@ -1,0 +1,28 @@
+.puzzle-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5em;
+
+  padding: 0.5em;
+  background-color: darkseagreen;
+  border: 1px solid green;
+  border-radius: 5px;
+  box-shadow: 0px 0px 3px 2px seagreen;
+
+  .puzzle-item {
+    aspect-ratio: 1;
+    cursor: pointer;
+    font-size: 3rem;
+    background-color: floralwhite;
+    color: DarkOliveGreen;
+
+    border: 1px solid green;
+    border-radius: 5px;
+    box-shadow: 0px 0px 3px 2px seagreen;
+  }
+
+  .empty-cell {
+    color: green;
+    visibility: hidden;
+  }
+}
