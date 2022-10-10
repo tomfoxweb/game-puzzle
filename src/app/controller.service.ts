@@ -3,7 +3,7 @@ import { Core } from './core/core';
 import { Viewable } from './core/viewable';
 import { NullViewableError } from './core/game-error';
 import { Modellable } from './core/modellable';
-import { RandomLodash } from './core/random-lodash';
+import { Random } from './core/random';
 import { environment } from 'src/environments/environment';
 import { ModelTestView } from './model-test';
 import { Column, Row } from './core/map';
@@ -19,7 +19,7 @@ export class ControllerService {
     if (environment.isTest) {
       this.model = ModelTestView.getInstance();
     } else {
-      this.model = new Core(new RandomLodash());
+      this.model = new Core(new Random());
     }
   }
 
