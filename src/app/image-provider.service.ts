@@ -4,7 +4,11 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ImageProviderService {
-  private imageSrcs: string[] = ['../assets/images/0.png'];
+  private imageSrcs: string[] = [
+    '../assets/images/0.png',
+    '../assets/images/1.png',
+    '../assets/images/2.png',
+  ];
   private currentImageIndex = 0;
 
   constructor() {}
