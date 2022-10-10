@@ -11,7 +11,7 @@ export class ImageProviderService {
     '../assets/images/3.png',
     '../assets/images/4.png',
   ];
-  private currentImageIndex = 0;
+  private currentImageIndex = 1;
 
   constructor() {}
 
