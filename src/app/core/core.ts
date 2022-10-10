@@ -41,11 +41,10 @@ export class Core implements Modellable {
     if (this.view === undefined) {
       throw new NullViewableError();
     }
-    const rowDiff = Math.abs(row - this.freeCell.row);
-    const columnDiff = Math.abs(column - this.freeCell.column);
-    if (rowDiff + columnDiff !== 1) {
+    if (this.freeCell.row === row && this.freeCell.column === column) {
       return;
     }
+
     const prevFreeCell = { ...this.freeCell };
     const shiftValue = this.grid[row][column].value;
     this.grid[prevFreeCell.row][prevFreeCell.column].value = shiftValue;

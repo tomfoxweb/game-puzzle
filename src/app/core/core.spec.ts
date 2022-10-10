@@ -260,24 +260,45 @@ describe('Game Core Click Cell ShuffleCount = 0', () => {
     spy.calls.reset();
   });
 
-  it('should not swap cell [2, 2] from [3, 3]', () => {
+  it('should not swap cell [3, 3] from [3, 3]', () => {
+    core.clickCell(3, 3);
+    expect(testingView.setCell).not.toHaveBeenCalled();
+  });
+
+  it('should swap cell [2, 2] from [3, 3]', () => {
     core.clickCell(2, 2);
-    expect(testingView.setCell).not.toHaveBeenCalled();
+    const newFreeCell: Cell = { row: 2, column: 2, value: 0 };
+    const prevFreeCell: Cell = { row: 3, column: 3, value: 11 };
+    expect(testingView.setCell).toHaveBeenCalledTimes(2);
+    expect(testingView.setCell).toHaveBeenCalledWith(newFreeCell);
+    expect(testingView.setCell).toHaveBeenCalledWith(prevFreeCell);
   });
 
-  it('should not swap cell [0, 0] from [3, 3]', () => {
+  it('should swap cell [0, 0] from [3, 3]', () => {
     core.clickCell(0, 0);
-    expect(testingView.setCell).not.toHaveBeenCalled();
+    const newFreeCell: Cell = { row: 0, column: 0, value: 0 };
+    const prevFreeCell: Cell = { row: 3, column: 3, value: 1 };
+    expect(testingView.setCell).toHaveBeenCalledTimes(2);
+    expect(testingView.setCell).toHaveBeenCalledWith(newFreeCell);
+    expect(testingView.setCell).toHaveBeenCalledWith(prevFreeCell);
   });
 
-  it('should not swap cell [0, 2] from [3, 3]', () => {
+  it('should swap cell [0, 2] from [3, 3]', () => {
     core.clickCell(0, 2);
-    expect(testingView.setCell).not.toHaveBeenCalled();
+    const newFreeCell: Cell = { row: 0, column: 2, value: 0 };
+    const prevFreeCell: Cell = { row: 3, column: 3, value: 3 };
+    expect(testingView.setCell).toHaveBeenCalledTimes(2);
+    expect(testingView.setCell).toHaveBeenCalledWith(newFreeCell);
+    expect(testingView.setCell).toHaveBeenCalledWith(prevFreeCell);
   });
 
-  it('should not swap cell [0, 3] from [3, 3]', () => {
+  it('should swap cell [0, 3] from [3, 3]', () => {
     core.clickCell(0, 3);
-    expect(testingView.setCell).not.toHaveBeenCalled();
+    const newFreeCell: Cell = { row: 0, column: 3, value: 0 };
+    const prevFreeCell: Cell = { row: 3, column: 3, value: 4 };
+    expect(testingView.setCell).toHaveBeenCalledTimes(2);
+    expect(testingView.setCell).toHaveBeenCalledWith(newFreeCell);
+    expect(testingView.setCell).toHaveBeenCalledWith(prevFreeCell);
   });
 
   it('should swap cell [3, 2] from [3, 3]', () => {
@@ -317,34 +338,63 @@ describe('Game Core Click Cell ShuffleCount = 3', () => {
     spy.calls.reset();
   });
 
-  it('should not swap cell [3, 3] from [2, 1]', () => {
+  it('should not swap cell [2, 1] from [2, 1]', () => {
+    core.clickCell(2, 1);
+    expect(testingView.setCell).not.toHaveBeenCalled();
+  });
+
+  it('should swap cell [3, 3] from [2, 1]', () => {
     core.clickCell(3, 3);
-    expect(testingView.setCell).not.toHaveBeenCalled();
+    const newFreeCell: Cell = { row: 3, column: 3, value: 0 };
+    const prevFreeCell: Cell = { row: 2, column: 1, value: 15 };
+    expect(testingView.setCell).toHaveBeenCalledTimes(2);
+    expect(testingView.setCell).toHaveBeenCalledWith(newFreeCell);
+    expect(testingView.setCell).toHaveBeenCalledWith(prevFreeCell);
   });
 
-  it('should not swap cell [0, 0] from [2, 1]', () => {
+  it('should swap cell [0, 0] from [2, 1]', () => {
     core.clickCell(0, 0);
-    expect(testingView.setCell).not.toHaveBeenCalled();
+    const newFreeCell: Cell = { row: 0, column: 0, value: 0 };
+    const prevFreeCell: Cell = { row: 2, column: 1, value: 1 };
+    expect(testingView.setCell).toHaveBeenCalledTimes(2);
+    expect(testingView.setCell).toHaveBeenCalledWith(newFreeCell);
+    expect(testingView.setCell).toHaveBeenCalledWith(prevFreeCell);
   });
 
-  it('should not swap cell [3, 0] from [2, 1]', () => {
+  it('should swap cell [3, 0] from [2, 1]', () => {
     core.clickCell(3, 0);
-    expect(testingView.setCell).not.toHaveBeenCalled();
+    const newFreeCell: Cell = { row: 3, column: 0, value: 0 };
+    const prevFreeCell: Cell = { row: 2, column: 1, value: 13 };
+    expect(testingView.setCell).toHaveBeenCalledTimes(2);
+    expect(testingView.setCell).toHaveBeenCalledWith(newFreeCell);
+    expect(testingView.setCell).toHaveBeenCalledWith(prevFreeCell);
   });
 
-  it('should not swap cell [0, 1] from [2, 1]', () => {
+  it('should swap cell [0, 1] from [2, 1]', () => {
     core.clickCell(1, 0);
-    expect(testingView.setCell).not.toHaveBeenCalled();
+    const newFreeCell: Cell = { row: 1, column: 0, value: 0 };
+    const prevFreeCell: Cell = { row: 2, column: 1, value: 5 };
+    expect(testingView.setCell).toHaveBeenCalledTimes(2);
+    expect(testingView.setCell).toHaveBeenCalledWith(newFreeCell);
+    expect(testingView.setCell).toHaveBeenCalledWith(prevFreeCell);
   });
 
   it('should not swap cell [1, 2] from [2, 1]', () => {
     core.clickCell(1, 2);
-    expect(testingView.setCell).not.toHaveBeenCalled();
+    const newFreeCell: Cell = { row: 1, column: 2, value: 0 };
+    const prevFreeCell: Cell = { row: 2, column: 1, value: 7 };
+    expect(testingView.setCell).toHaveBeenCalledTimes(2);
+    expect(testingView.setCell).toHaveBeenCalledWith(newFreeCell);
+    expect(testingView.setCell).toHaveBeenCalledWith(prevFreeCell);
   });
 
   it('should not swap cell [3, 0] from [2, 1]', () => {
     core.clickCell(3, 0);
-    expect(testingView.setCell).not.toHaveBeenCalled();
+    const newFreeCell: Cell = { row: 3, column: 0, value: 0 };
+    const prevFreeCell: Cell = { row: 2, column: 1, value: 13 };
+    expect(testingView.setCell).toHaveBeenCalledTimes(2);
+    expect(testingView.setCell).toHaveBeenCalledWith(newFreeCell);
+    expect(testingView.setCell).toHaveBeenCalledWith(prevFreeCell);
   });
 
   it('should swap cell [1, 1] from [2, 1]', () => {
