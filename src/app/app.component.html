@@ -1,6 +1,25 @@
 <div class="content-container">
   <h1 class="title">{{ title }}</h1>
   <div class="buttons-container">
+    <input
+      type="file"
+      class="file-input"
+      accept="image/*"
+      (change)="onFileSelected($event)"
+      #fileUpload
+    />
+    <button class="button-upload" (click)="fileUpload.click()">
+      {{ buttonUploadCaption }}
+    </button>
+    <button
+      class="button-delete"
+      [class.hidden]="!imageCanBeDeleted"
+      (click)="deleteCurrentImage()"
+    >
+      {{ buttonDeleteCaption }}
+    </button>
+  </div>
+  <div class="buttons-container">
     <button class="button-prev-image" (click)="puzzle.showPrevImage()">
       {{ buttonPrevImageCaption }}
     </button>
@@ -47,5 +66,8 @@
     </button>
     <output #outputShuffleCount id="outputShuffleCount">500</output>
   </div>
-  <app-puzzle #puzzle></app-puzzle>
+  <app-puzzle
+    (canBeDeletedEvent)="onImageCanBeDeletedEvent($event)"
+    #puzzle
+  ></app-puzzle>
 </div>

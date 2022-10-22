@@ -25,10 +25,10 @@ $content-max-width: 600px;
   }
 
   .buttons-container {
-    display: grid;
-    grid-template-columns: repeat(3, auto);
-    gap: 1em;
+    display: flex;
+    flex-flow: row wrap;
     justify-content: center;
+    gap: 1em;
 
     button {
       font-size: 1rem;
@@ -38,6 +38,10 @@ $content-max-width: 600px;
         color: white;
         background-color: darkseagreen;
       }
+    }
+
+    .file-input {
+      display: none;
     }
   }
 
@@ -95,4 +99,8 @@ $content-max-width: 600px;
       grid-column: 2;
     }
   }
+}
+
+.hidden {
+  display: none;
 }

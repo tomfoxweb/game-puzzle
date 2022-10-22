@@ -5,5 +5,7 @@ export const environment = {
   buttonNewGameCaption: 'Shuffle',
   buttonPrevImageCaption: 'Prev',
   buttonNextImageCaption: 'Next',
+  buttonUploadCaption: 'Upload',
+  buttonDeleteCaption: 'Delete',
   isTest: false,
 };

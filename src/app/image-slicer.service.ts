@@ -39,15 +39,26 @@ export class ImageSlicerService {
   sliceImage(sourceImg: HTMLImageElement): ImageInfo[] {
     const slicedImagesInfo: ImageInfo[] = [];
     const valueIterator = CellValues[Symbol.iterator]();
+    const srcWidth = sourceImg.width;
+    const srcHeight = sourceImg.height;
+    const srcMinDim = Math.min(srcWidth, srcHeight);
+    const srcCenterX = srcWidth / 2;
+    const srcCenterY = srcHeight / 2;
+    const srcStartX = srcCenterX - srcMinDim / 2;
+    const srcStartY = srcCenterY - srcMinDim / 2;
+    const srcCellWidth = srcMinDim / RowValues.length;
+    const srcCellHeight = srcMinDim / ColumnValues.length;
     for (const row of RowValues) {
       for (const column of ColumnValues) {
         const value = valueIterator.next().value;
-        const x = column * this.canvasWidth;
-        const y = row * this.canvasHeight;
+        const x = srcStartX + column * srcCellWidth;
+        const y = srcStartY + row * srcCellHeight;
+        const srcW = srcCellWidth;
+        const srcH = srcCellHeight;
         const w = this.canvasWidth;
         const h = this.canvasHeight;
         this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
-        this.ctx.drawImage(sourceImg, x, y, w, h, 0, 0, w, h);
+        this.ctx.drawImage(sourceImg, x, y, srcW, srcH, 0, 0, w, h);
         const image = new Image();
         const src = (image.src = this.canvas.toDataURL());
         const alt = (image.alt = value);

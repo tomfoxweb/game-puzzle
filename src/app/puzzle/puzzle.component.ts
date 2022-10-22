@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ControllerService } from '../controller.service';
 import {
   Cell,
@@ -10,7 +10,7 @@ import {
   RowValues,
 } from '../core/map';
 import { Viewable } from '../core/viewable';
-import { ImageProviderService } from '../image-provider.service';
+import { ImageProviderService, ImageSource } from '../image-provider.service';
 import { ImageInfo, ImageSlicerService } from '../image-slicer.service';
 
 @Component({
@@ -20,8 +20,10 @@ import { ImageInfo, ImageSlicerService } from '../image-slicer.service';
 })
 export class PuzzleComponent implements OnInit, Viewable {
   @Input() shuffleCount = '500';
+  @Output() canBeDeletedEvent = new EventEmitter<boolean>();
   orderedImagesInfo: ImageInfo[] = [];
   currentImagesInfo: ImageInfo[] = [];
+  canBeDeleted = false;
 
   constructor(
     public controller: ControllerService,
@@ -30,11 +32,16 @@ export class PuzzleComponent implements OnInit, Viewable {
   ) {}
 
   ngOnInit(): void {
-    this.showNextImage();
+    this.showCurrentImage();
   }
 
   newGame(shuffleCount: string): void {
     this.controller.newGame(Number(shuffleCount));
+  }
+
+  showCurrentImage(): void {
+    this.showLoadingImage();
+    this.loadCurrentImage();
   }
 
   showNextImage(): void {
@@ -89,23 +96,29 @@ export class PuzzleComponent implements OnInit, Viewable {
   }
 
   private loadNextImage(): void {
-    const src = this.imageProvider.getNextImageSrc();
-    this.loadImage(src);
+    const source = this.imageProvider.getNextImageSrc();
+    this.loadImage(source);
   }
 
   private loadPrevImage(): void {
-    const src = this.imageProvider.getPrevImageSrc();
-    this.loadImage(src);
+    const source = this.imageProvider.getPrevImageSrc();
+    this.loadImage(source);
   }
 
-  private loadImage(src: string): void {
+  private loadCurrentImage(): void {
+    const source = this.imageProvider.getCurrentImageSrc();
+    this.loadImage(source);
+  }
+
+  private loadImage(source: ImageSource): void {
     const image = new Image();
-    image.src = src;
+    image.src = source.src;
     image.onload = () => {
       this.orderedImagesInfo = this.imageSlicer.sliceImage(image);
       this.currentImagesInfo = [...this.orderedImagesInfo];
       this.controller.setView(this);
       this.controller.newGame(Number(this.shuffleCount));
     };
+    this.canBeDeletedEvent.emit(source.canBeDeleted);
   }
 }
