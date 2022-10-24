@@ -1,20 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  CellValue,
-  CellValues,
-  Column,
-  ColumnValues,
-  Row,
-  RowValues,
-} from './core/map';
-
-export interface ImageInfo {
-  row: Row;
-  column: Column;
-  value: CellValue;
-  src: string;
-  alt: string;
-}
+import { CellValues, ColumnValues, RowValues } from './core/map';
+import { ImageChunkInfo } from './image-provider.service';
 
 @Injectable({
   providedIn: 'root',
@@ -36,8 +22,8 @@ export class ImageSlicerService {
     this.ctx = sliceCtx;
   }
 
-  sliceImage(sourceImg: HTMLImageElement): ImageInfo[] {
-    const slicedImagesInfo: ImageInfo[] = [];
+  sliceImage(sourceImg: HTMLImageElement): ImageChunkInfo[] {
+    const slicedImagesInfo: ImageChunkInfo[] = [];
     const valueIterator = CellValues[Symbol.iterator]();
     const srcWidth = sourceImg.width;
     const srcHeight = sourceImg.height;
@@ -62,7 +48,7 @@ export class ImageSlicerService {
         const image = new Image();
         const src = (image.src = this.canvas.toDataURL());
         const alt = (image.alt = value);
-        const info: ImageInfo = {
+        const info: ImageChunkInfo = {
           row,
           column,
           value,

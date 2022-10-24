@@ -10,8 +10,11 @@ import {
   RowValues,
 } from '../core/map';
 import { Viewable } from '../core/viewable';
-import { ImageProviderService, ImageSource } from '../image-provider.service';
-import { ImageInfo, ImageSlicerService } from '../image-slicer.service';
+import {
+  ImageProviderService,
+  ImageInfo,
+  ImageChunkInfo,
+} from '../image-provider.service';
 
 @Component({
   selector: 'app-puzzle',
@@ -21,13 +24,12 @@ import { ImageInfo, ImageSlicerService } from '../image-slicer.service';
 export class PuzzleComponent implements OnInit, Viewable {
   @Input() shuffleCount = '500';
   @Output() canBeDeletedEvent = new EventEmitter<boolean>();
-  orderedImagesInfo: ImageInfo[] = [];
-  currentImagesInfo: ImageInfo[] = [];
+  orderedChunksInfo: ImageChunkInfo[] = [];
+  currentChunksInfo: ImageChunkInfo[] = [];
   canBeDeleted = false;
 
   constructor(
     public controller: ControllerService,
-    private imageSlicer: ImageSlicerService,
     private imageProvider: ImageProviderService
   ) {}
 
@@ -39,28 +41,28 @@ export class PuzzleComponent implements OnInit, Viewable {
     this.controller.newGame(Number(shuffleCount));
   }
 
-  showCurrentImage(): void {
-    this.showLoadingImage();
-    this.loadCurrentImage();
+  async showCurrentImage() {
+    await this.showLoadingImage();
+    await this.loadCurrentImage();
   }
 
-  showNextImage(): void {
-    this.showLoadingImage();
-    this.loadNextImage();
+  async showNextImage() {
+    await this.showLoadingImage();
+    await this.loadNextImage();
   }
 
-  showPrevImage(): void {
-    this.showLoadingImage();
-    this.loadPrevImage();
+  async showPrevImage() {
+    await this.showLoadingImage();
+    await this.loadPrevImage();
   }
 
   setCell(cell: Readonly<Cell>): void {
     const index = positionToIndex(cell.row, cell.column);
     const value = cell.value;
-    const info = this.orderedImagesInfo.find((x) => x.value === value)!;
+    const info = this.orderedChunksInfo.find((x) => x.value === value)!;
     info.row = cell.row;
     info.column = cell.column;
-    this.currentImagesInfo[index] = { ...info };
+    this.currentChunksInfo[index] = info;
   }
 
   clickCell(row: Row, column: Column): void {
@@ -73,52 +75,47 @@ export class PuzzleComponent implements OnInit, Viewable {
     }, 200);
   }
 
-  private showLoadingImage(): void {
-    const loadingImage = new Image();
-    loadingImage.src = '../../assets/images/loading.gif';
-    loadingImage.alt = 'Loading...';
-    this.currentImagesInfo = [];
+  private async showLoadingImage(): Promise<void> {
+    const src = await this.imageProvider.getLoadingImage();
+    this.currentChunksInfo = [];
     const valueIterator = CellValues[Symbol.iterator]();
     for (const row of RowValues) {
       for (const column of ColumnValues) {
         const value = valueIterator.next().value;
-        const info: ImageInfo = {
+        const info: ImageChunkInfo = {
           row,
           column,
           value,
-          src: loadingImage.src,
-          alt: loadingImage.alt,
+          src: src,
+          alt: 'Loading...',
         };
-        this.currentImagesInfo.push(info);
+        this.currentChunksInfo.push(info);
       }
     }
-    this.currentImagesInfo[this.currentImagesInfo.length - 1].value = 1;
+    this.currentChunksInfo[this.currentChunksInfo.length - 1].value = 1;
   }
 
-  private loadNextImage(): void {
-    const source = this.imageProvider.getNextImageSrc();
-    this.loadImage(source);
+  private async loadNextImage() {
+    const info = await this.imageProvider.getNextImageInfo();
+    this.startNewGame(info);
   }
 
-  private loadPrevImage(): void {
-    const source = this.imageProvider.getPrevImageSrc();
-    this.loadImage(source);
+  private async loadPrevImage() {
+    const info = await this.imageProvider.getPrevImageInfo();
+    this.startNewGame(info);
   }
 
-  private loadCurrentImage(): void {
-    const source = this.imageProvider.getCurrentImageSrc();
-    this.loadImage(source);
+  private async loadCurrentImage() {
+    const info = await this.imageProvider.getCurrentImageInfo();
+    this.startNewGame(info);
   }
 
-  private loadImage(source: ImageSource): void {
-    const image = new Image();
-    image.src = source.src;
-    image.onload = () => {
-      this.orderedImagesInfo = this.imageSlicer.sliceImage(image);
-      this.currentImagesInfo = [...this.orderedImagesInfo];
+  private startNewGame(info: ImageInfo) {
+    if (info.chunksInfo) {
+      this.orderedChunksInfo = info.chunksInfo;
       this.controller.setView(this);
       this.controller.newGame(Number(this.shuffleCount));
-    };
-    this.canBeDeletedEvent.emit(source.canBeDeleted);
+      this.canBeDeletedEvent.emit(info.canBeDeleted);
+    }
   }
 }

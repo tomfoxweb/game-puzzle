@@ -1,7 +1,7 @@
 <div class="puzzle-container">
   <button
     class="puzzle-item"
-    *ngFor="let item of currentImagesInfo"
+    *ngFor="let item of currentChunksInfo"
     id="item{{ item.row }}{{ item.column }}"
     [disabled]="item.value === 0"
     [class.empty-cell]="item.value === 0"
