@@ -44,6 +44,11 @@ export class ImageProviderService {
   }
 
   async getCurrentImageInfo(): Promise<ImageInfo> {
+    if (this.currentImageIndex < 0) {
+      this.currentImageIndex = 0;
+    } else if (this.currentImageIndex >= this.imagesInfo.length) {
+      this.currentImageIndex = this.imagesInfo.length - 1;
+    }
     return this.getImageInfo();
   }
 
