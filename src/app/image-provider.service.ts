@@ -44,31 +44,25 @@ export class ImageProviderService {
   }
 
   async getCurrentImageInfo(): Promise<ImageInfo> {
-    if (this.currentImageIndex < 0) {
-      this.currentImageIndex = 0;
-    } else if (this.currentImageIndex >= this.imagesInfo.length) {
-      this.currentImageIndex = this.imagesInfo.length - 1;
-    }
     return this.getImageInfo();
   }
 
   async getNextImageInfo(): Promise<ImageInfo> {
     this.currentImageIndex++;
-    if (this.currentImageIndex >= this.imagesInfo.length) {
-      this.currentImageIndex = 0;
-    }
     return this.getImageInfo();
   }
 
   async getPrevImageInfo(): Promise<ImageInfo> {
     this.currentImageIndex--;
-    if (this.currentImageIndex < 0) {
-      this.currentImageIndex = this.imagesInfo.length - 1;
-    }
     return this.getImageInfo();
   }
 
   private async getImageInfo(): Promise<ImageInfo> {
+    if (this.currentImageIndex < 0) {
+      this.currentImageIndex = this.imagesInfo.length - 1;
+    } else if (this.currentImageIndex >= this.imagesInfo.length) {
+      this.currentImageIndex = 0;
+    }
     if (!this.imagesInfo[this.currentImageIndex].chunksInfo) {
       const chunks = await this.createChunks();
       this.imagesInfo[this.currentImageIndex].chunksInfo = chunks;
@@ -94,6 +88,11 @@ export class ImageProviderService {
         }
       }
       this.imagesInfo.splice(this.currentImageIndex, 1);
+      if (this.currentImageIndex < 0) {
+        this.currentImageIndex = 0;
+      } else if (this.currentImageIndex >= this.imagesInfo.length) {
+        this.currentImageIndex = this.imagesInfo.length - 1;
+      }
     }
   }
 
